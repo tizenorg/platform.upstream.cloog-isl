@@ -1,3 +1,5 @@
+%define keepstatic 1
+
 Name:           cloog
 Version:        0.15.10
 Release:        0
