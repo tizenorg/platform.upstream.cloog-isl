@@ -1,5 +1,5 @@
 Name:           cloog
-Version:        0.15.10+ppl
+Version:        0.15.10
 Release:        0
 Summary:        The Chunky Loop Generator
 License:        GPL-2.0+
