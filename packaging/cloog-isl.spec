@@ -1,16 +1,17 @@
 %define keepstatic 1
 
-Name:           cloog
-Version:        0.15.10
+Name:           cloog-isl
+Version:        0.18.0
 Release:        0
 Summary:        The Chunky Loop Generator
 License:        GPL-2.0+
-Group:          Development/Languages/C and C++
+Group:          Development/Toolchain
 Url:            http://www.cloog.org/
-Source:         cloog-ppl-0.15.10.tar.bz2
+Source:         cloog-%{version}.tar.gz
 Source1:        baselibs.conf
 BuildRequires:  libtool
-BuildRequires:  ppl-devel
+BuildRequires:  gmp-devel
+BuildRequires:  isl-devel
 
 %description
 CLooG is a free software and library to generate code for scanning
@@ -18,25 +19,23 @@ Z-polyhedra. It is used by the GCC Graphite optimization framework.
 
 %package devel
 Summary:        Development tools for CLOOG
-Group:          Development/Languages/C and C++
-Requires:       libcloog = %{version}-%{release}
+Requires:       libcloog-isl = %{version}-%{release}
 
 %description devel
 Development tools and headers for the Chunky Loop Generator.
 
-%package -n libcloog
+%package -n libcloog-isl
 Summary:        The CLOOG shared library
-Group:          Development/Languages/C and C++
 
-%description -n libcloog
+%description -n libcloog-isl
 The shared library for the Chunky Loop Generator.
 
+
 %prep
-%setup -q -n cloog-ppl-0.15.10
+%setup -q -n cloog-%{version}
 
 %build
-./autogen.sh
-%configure --with-ppl
+%configure --with-isl=system --disable-static
 make %{_smp_mflags}
 
 %check
@@ -45,23 +44,26 @@ make %{_smp_mflags} check
 %install
 %make_install
 
-%post -n libcloog -p /sbin/ldconfig
+%post -n libcloog-isl -p /sbin/ldconfig
 
-%postun -n libcloog -p /sbin/ldconfig
+%postun -n libcloog-isl -p /sbin/ldconfig
+
 
 %files
+%license LICENSE
 %defattr(-,root,root,-)
 %{_bindir}/cloog
-%doc %{_infodir}/cloog.info*gz
 
-%files -n libcloog
+%files -n libcloog-isl
+%license LICENSE
 %defattr(-,root,root,-)
-%{_libdir}/libcloog.so.*
+%{_libdir}/libcloog-isl.so.*
+
 
 %files devel
 %defattr(-,root,root,-)
 %{_includedir}/cloog
-%{_libdir}/libcloog.so
-%{_libdir}/libcloog.a
+%{_libdir}/libcloog-isl.so
+%{_libdir}/pkgconfig/*.pc
 
 %changelog
