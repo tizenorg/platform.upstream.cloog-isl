@@ -1,6 +1,6 @@
 %define keepstatic 1
 
-Name:           cloog-static
+Name:           cloog-isl-static
 Version:        0.18.1
 Release:        0
 Summary:        The Chunky Loop Generator
